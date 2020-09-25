@@ -1,0 +1,240 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a the zoetic API docs"
+  version: "1.0.0"
+  title: "Zoetic API"
+  contact:
+    email: "ryantando@gmail.com"
+host: "virtserver.swaggerhub.com"
+basePath: "/ryantando/ZoeticAPI/1.0.0"
+tags:
+- name: "device"
+  description: "To fetch and post device data"
+schemes:
+- "https"
+- "http"
+paths:
+  /device/{date}/{type}:
+    get:
+      tags:
+      - "device"
+      summary: "get data by type"
+      description: "get data by type\n"
+      operationId: "getDataByType"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "date"
+        in: "path"
+        description: "date"
+        required: true
+        type: "string"
+      - name: "type"
+        in: "path"
+        description: "device type"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DeviceItem"
+        "400":
+          description: "Content can not be empty!"
+  /device/{date}/{type}/summary:
+    get:
+      tags:
+      - "device"
+      summary: "get data by type summary / average"
+      description: "get data by type summary / average\n"
+      operationId: "getDataByTypeSummary"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "date"
+        in: "path"
+        description: "date"
+        required: true
+        type: "string"
+      - name: "type"
+        in: "path"
+        description: "device type"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DeviceItemSummary"
+        "400":
+          description: "Content can not be empty!"
+  /device/thermometer:
+    post:
+      tags:
+      - "device"
+      summary: "post data thermometer"
+      description: "post data thermometer\n"
+      operationId: "postDataThermometer"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "thermometerBody"
+        description: "thermometerBody"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "temperature"
+          properties:
+            temperature:
+              type: "number"
+              format: "float"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "object"
+        "400":
+          description: "Content can not be empty!"
+  /device/blood:
+    post:
+      tags:
+      - "device"
+      summary: "post data blood"
+      description: "post data blood\n"
+      operationId: "postDataBlood"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "bloodBody"
+        description: "bloodBody"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "diastolic"
+          - "systolic"
+          properties:
+            systolic:
+              type: "number"
+            diastolic:
+              type: "number"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "object"
+        "400":
+          description: "Content can not be empty!"
+  /device/oximeter:
+    post:
+      tags:
+      - "device"
+      summary: "post data oximeter"
+      description: "post data oximeter\n"
+      operationId: "postDataOximeter"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "oximeterBody"
+        description: "oximeterBody"
+        required: true
+        schema:
+          type: "object"
+          required:
+          - "pulse_rate"
+          - "sp02"
+          properties:
+            sp02:
+              type: "number"
+            pulse_rate:
+              type: "number"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "object"
+        "400":
+          description: "Content can not be empty!"
+definitions:
+  DeviceItem:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "int"
+        example: "1"
+      temperature:
+        type: "string"
+        format: "int"
+        example: "124 // if type thermometer"
+      systolic:
+        type: "string"
+        format: "int"
+        example: "70 // if type blood"
+      diastolic:
+        type: "string"
+        format: "int"
+        example: "70 // if type blood"
+      sp02:
+        type: "string"
+        format: "int"
+        example: "124 // if type oximeter"
+      pulse_rate:
+        type: "string"
+        format: "int"
+        example: "70 // if type oximeter"
+      date:
+        type: "string"
+        format: "datetime"
+        example: "2020-07-30 5:27:8"
+      updated:
+        type: "string"
+        format: "datetime"
+        example: "2020-07-30 5:27:8"
+  DeviceItemSummary:
+    type: "object"
+    properties:
+      avgtemperature:
+        type: "string"
+        format: "float"
+        example: "124.1 // if type thermometer"
+      avgsystolic:
+        type: "string"
+        format: "int"
+        example: "70 // if type blood"
+      avgdiastolic:
+        type: "string"
+        format: "int"
+        example: "70 // if type blood"
+      avgsp02:
+        type: "string"
+        format: "int"
+        example: "124 // if type oximeter"
+      avgpulse_rate:
+        type: "string"
+        format: "int"
+        example: "70 // if type oximeter"
+      date:
+        type: "string"
+        format: "datetime"
+        example: "2020-07-30 5:27:8"
+      updated:
+        type: "string"
+        format: "datetime"
+        example: "2020-07-30 5:27:8"
+  ResultPost:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "int"
+        example: "1"
